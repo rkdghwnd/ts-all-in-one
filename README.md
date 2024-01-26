@@ -112,12 +112,15 @@ tuple[2] = 'hello';
 tuple.push('hello');
 ```
 - enum, keyof, typeof
+- enum은 주로 상수로 사용함
+- enum 변수는 컴파일 과정에서 사라진다
+- 일반 리터럴 개체에 속성을 지정하면 해당값이 아닌 해당값이 가지는 타입(ex) number) 로 추론한다. enum 처럼 사용하고 싶으면 as const를 붙이면 된다.
 ```typescript
 const enum EDirection {
-  Up,
-  Down,
-  Left,
-  Right,
+  Up,  // 0
+  Down,  // 1
+  Left,  // 2
+  Right,  // 3
 }
  
 const ODirection = {
@@ -139,13 +142,20 @@ ODirection.Up;
 function walk(dir: EDirection) {}
  
 // It requires an extra line to pull out the keys
+// enum 안쓰고 enum 타입 지정하는 방법 (문법이 복잡해서 enum이 생긴것)
 type Direction = typeof ODirection[keyof typeof ODirection];
 function run(dir: Direction) {}
  
 walk(EDirection.Left);
 run(ODirection.Right);
+
+// keyof typeof 연습(vscode 에서 써보고 타입추론도 확인해보기)
+// as const 썻을때와 안썻을때 타입추론 비교해보기
+const obj = { a: '123', b: 'hello', c: 'world'} as const
+type Key = typeof obj[keyof typeof obj]
 ```
 - 객체 타이핑: type과 interface 구분하기
+- 간단한 타이핑은 type, 객체지향 타이핑은 interface
 ```typescript
 type A = { a: string };
 const a: A = { a: 'hello' };
@@ -154,6 +164,8 @@ interface B { a: string }
 const b: B = { a: 'hello' };
 ```
 - union, intersection
+- intersection 은 모든 속성이 다 있어야 한다.
+- union 은 모든 속성 중 최소 하나라도 있으면 된다.(모두 있어도 만족)
 ```typescript
 function add(x: string | number, y: string | number): string | number { return x + y }
 add(1, 2)
@@ -183,11 +195,13 @@ const obj2: B = { a: 'hello', b: 'world' }
 ```
 
 - 객체 리터럴은 잉여 속성 검사가 있음.
+- 잉여 속성 검사란 정의한 타입속성 이외에 잉여인 속성까지 검사해서 에러를 뿜어내는것
+- 다만 객체 리터럴 '변수'를 할당하는 경우에는 잉여 속성 검사를 하지 않는다.(값을 할당하는게 아닌, 주소를 연결하기 때문에)
 ```typescript
 type A = { hello: string };
-const a: A = { hello: 'world', why: 'error' };
+const a: A = { hello: 'world', why: 'error' }; // 잉여 속성 검사함(타입에러)
 
-const b = { hello: 'world', why: 'error' };
+const b = { hello: 'world', why: 'error' }; // 잉여 속성 검사를 안함(타입에러 안뜸)
 const c: A = b;
 ```
 
