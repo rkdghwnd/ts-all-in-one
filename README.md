@@ -42,6 +42,17 @@ const obj: { lat: number, lon: number } = { lat: 37.5, lon: 127.5 };
 ```typescript
 const z: {} = 5;
 ```
+- unknown 타입을 if 에 넣으면 {} 타입이 된다.
+```
+const z: unkown = 'hi';
+
+if (z) {
+  z; // 커서를 갖다 대면 z : {} 타입인걸 확인 할 수 있다.
+} else {
+  z;
+}
+```
+
 - ts가 추론해주는 타입이 있는데 이런 건 그냥 그대로 사용하면 됨. ts가 추론하지 못하는 경우에만 직접 타이핑할 것.
 ```typescript
 const a = 5;
@@ -284,7 +295,7 @@ const promises = await Promise.allSettled([Promise.resolve('a'), Promise.resolve
 const errors = promises.filter(isRejected);
 ```
 class인 경우 instanceof 연산자도 가능!
-- readonly
+- readonly ( 타입스크립트 선에서 값을 바꾸지 못하게 막아줌 )
 ```typescript
 interface A {
   readonly a: string;
@@ -292,6 +303,8 @@ interface A {
 }
 ```
 - class에 private, protected 추가됨
+- 인스턴스의 타입은 class의 이름을 타입으로 붙이면 된다.
+- 클래스의 타입은 typeof class의 이름을 타입으로 붙이면 된다.
 ```typescript
 class B implements A {
   private a: string;
@@ -302,6 +315,9 @@ new C().a;
 new C().b;
 ```
 - abstract class, abstract method
+- 클래스를 미리 모양만 만들어 놓은것(타입만 지정해놓고 구현은 하지 않은것)
+- abstract class는 class에 extends로 적용, interface는 class에 implements로 적용
+- abstract class는 선언했으면 실제 class를 구현 해줘야 에러가 안난다.
 ```typescript
 abstract class X {
   abstract work(user: User): boolean;
