@@ -426,6 +426,8 @@ try {
 }
 ```
 - this 타이핑
+- 타입스크립트에서 첫번째 매개변수가 this 다 -> this가 매개변수로 사용한게 아니라 this를 타이핑 한것일 뿐 -> 인자로 사용하지는 않는다. 
+- 예시의 함수를 사용하는 경우 function(a,b) 만 인자로 전달해야 올바르게 작동함
 ```typescript
 function (this: Window, a: number, b: number) {
   console.log(this);
