@@ -44,7 +44,7 @@ const z: {} = 5;
 ```
 - unknown 타입을 if 에 넣으면 {} 타입이 된다.
 ```
-const z: unkown = 'hi';
+const z: unknown = 'hi';
 
 if (z) {
   z; // 커서를 갖다 대면 z : {} 타입인걸 확인 할 수 있다.
